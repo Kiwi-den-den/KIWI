@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Kiwi by Kiwi-den-den</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Kiwi</h1>
+      <h2 class="project-tagline">A Graphical Interface For Exploring BLS Consumer Expenditure Micro-Data </h2>
+      <a href="https://github.com/Kiwi-den-den/KIWI" class="btn">View on GitHub</a>
+      <a href="https://github.com/Kiwi-den-den/KIWI/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Kiwi-den-den/KIWI/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h3>
+<a id="welcome-to-the-kiwi--cassava-webpage" class="anchor" href="#welcome-to-the-kiwi--cassava-webpage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to the Kiwi &amp; Cassava webpage.</h3>
+
+<h3>
+<a id="what-are-kiwi-and-cassava" class="anchor" href="#what-are-kiwi-and-cassava" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What are Kiwi and Cassava?</h3>
+
+<p>Kiwi is a STATA ADO file or a package that creates a GUI (Graphical User Interface) within STATA to make exploring the BLS Consumer Expenditure Micro-Data a bit less difficult. It is intended for getting a basic idea of what the data are saying. It has limited options, and places the user in a sandbox.
+Advance user or those wanting more than basic means should use Cassava.</p>
+
+<p>Cassava is a script that is written in STATA language that makes collating and formatting BLS Consumer Expenditure Micro-Data. It is a template that can be used by advance STATA users to turn the CE survey data into useable data. The user has full control over which variables to create or format, however, it does require a healthy knowledge of STATA commands and language</p>
+
+<h3>
+<a id="what-do-i-need-to-know-about-the-bls-ce-survey-data" class="anchor" href="#what-do-i-need-to-know-about-the-bls-ce-survey-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What do I need to know about the BLS CE survey data?</h3>
+
+<p>To put it simply a lot. To learn about the data please check out the BLS's webpage on the CE Survey microdata.
+You will not be able to use the scripts if you are not famliar with how to use the data. Main Data Page
+<a href="http://www.bls.gov/cex/pumdhome.htm">http://www.bls.gov/cex/pumdhome.htm</a></p>
+
+<p>Surevy Forms Page
+<a href="http://www.bls.gov/cex/csxsurveyforms.htm#interview">http://www.bls.gov/cex/csxsurveyforms.htm#interview</a></p>
+
+<p>Guide to Data
+<a href="http://www.bls.gov/cex/pumd_novice_guide.pdf">http://www.bls.gov/cex/pumd_novice_guide.pdf</a></p>
+
+<h3>
+<a id="how-do-i-use-kiwi-or-cassava" class="anchor" href="#how-do-i-use-kiwi-or-cassava" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I use Kiwi or Cassava?</h3>
+
+<h1>
+<a id="first-download-the-data" class="anchor" href="#first-download-the-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>First download the data</h1>
+
+<p>1) The data can be downloaded directly from the BLS CE Survey website <a href="http://www.bls.gov/cex/pumdhome.htm">http://www.bls.gov/cex/pumdhome.htm</a> or,
+2) For the user’s convenience we have included a link to the formatted version of the data from 1996 to 2014, only the family interview survey is included. <a href="https://www.dropbox.com/s/7p2u4en2c83fnxu/CEX_data_files1.rar?dl=0">https://www.dropbox.com/s/7p2u4en2c83fnxu/CEX_data_files1.rar?dl=0</a>
+3) Save the data with the following directory location 
+    a. C:\CEX\
+    b. If you choose any other location you must modify the scripts to reflect new location
+    c. the individual yearly files should follow this format
+    C:\CEX\"Year"\"Year" for example data files for 1996 should be located at C:\CEX\1992\1992\</p>
+
+<h2>
+<a id="to-use-kiwi" class="anchor" href="#to-use-kiwi" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>To use kiwi</h2>
+
+<p>1) Download the KIWI folder
+2) Copy the contents of the “KIWI” file to your personal ado dir
+3) From the STATA Command window type “kiwi2”</p>
+
+<h2>
+<a id="to-use-cassava" class="anchor" href="#to-use-cassava" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>To use Cassava</h2>
+
+<p>1) Open the do file with STATA’s do file editor
+2) Edit the file to reflect the user’s needs
+3) Run using STATA commands</p>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>In 2014, Walter Lake <a href="https://github.com/Kiwi-den-den" class="user-mention">@Kiwi-den-den</a> created Kiwi &amp; Cassava to lower the barriers of usage for the BLS CE Survey Micro-data</p>
+
+<h3>
+<a id="why-are-the-script-named-kiwi--cassava" class="anchor" href="#why-are-the-script-named-kiwi--cassava" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why are the script named Kiwi &amp; Cassava?</h3>
+
+<p>In honor of my loving wife and my overly pampered cat</p>
+
+<h3>
+<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Contact Walter Lake at <a href="mailto:wlake@pewtrusts.org">wlake@pewtrusts.org</a> </p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Kiwi-den-den/KIWI">Kiwi</a> is maintained by <a href="https://github.com/Kiwi-den-den">Kiwi-den-den</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>

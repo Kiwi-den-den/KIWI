@@ -24,10 +24,10 @@ b.	If you choose any other location you must modify the scripts to reflect new l
 c. the individual yearly files should follow this format 		
 		C:\\CEX\"Year"\"Year" for example data files for 1996 should be located at C:\CEX\1992\1992\		
 			
-To use kiwi	
-1) Download the KIWI folder	
-2) Copy the contents of the “KIWI” file to your personal ado dir	
-3) From the STATA Command window type “kiwi2”	
+To use kiwi		
+1) Download the KIWI folder		
+2) Copy the contents of the “KIWI” file to your personal ado dir		
+3) From the STATA Command window type “kiwi2”		
 To use Cassava	
 1) Open the do file with STATA’s do file editor	
 2) Edit the file to reflect the user’s needs	

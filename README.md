@@ -1,6 +1,6 @@
 What are Kiwi and Cassava?
-Kiwi is a STATA ADO file or a package that creates a GUI (Graphical User Interface) within STATA to make exploring the BLS Consumer Expenditure Micro-Data a bit less difficult. It is intended for getting a basic idea of what the data are saying. It has limited options, and places the user in a sandbox. Advance user or those wanting more than basic means should use Cassava.
-  Cassava is a script that is written in STATA language that makes collating and formatting BLS Consumer Expenditure Micro-Data. It is a template that can be used by advance STATA users to turn the CE survey data into useable data. The user has full control over which variables to create or format, however, it does require a healthy knowledge of STATA commands and language. 	
+Kiwi is a STATA ADO file or a package that creates a GUI (Graphical User Interface) within STATA to make exploring the BLS Consumer Expenditure Micro-Data a bit less difficult. It is intended for getting a basic idea of what the data are saying. It has limited options, and places the user in a sandbox. 	Advance user or those wanting more than basic means should use Cassava.	
+  	Cassava is a script that is written in STATA language that makes collating and formatting BLS Consumer Expenditure Micro-Data. It is a template that can be used by advance STATA users to turn the CE survey data into useable data. The user has full control over which variables to create or format, however, it does require a healthy knowledge of STATA commands and language	 	
   
 What do I need to know about the data?	
 Please check out the BLS's webpage on the CE Survey microdata. You will not be able to use the scripts if you are not famliar with how to use the data.	

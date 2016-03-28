@@ -1,4 +1,18 @@
-
+* Please cite
+* Sample Citation "Walter Lake (2015), Kiwi & Cassava Version 3 [Computer software], Washington, https://github.com/Kiwi-den-den/KIWI.git."
+* Copyright (C) 2016  Walter Lake.
+*  This program is free software: you can redistribute it and/or modify 
+* it under the terms of the GNU General Public License as published by 
+*     the Free Software Foundation, either version 3 of the License, or  
+*     any later version.  
+*     This program is distributed in the hope that it will be useful, 
+*     but WITHOUT ANY WARRANTY; without even the implied warranty of  
+*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+*     GNU General Public License for more details.  
+*     You should have received a copy of the GNU General Public License   
+*     along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+* 	The author maybe contacted at wlake@pewtrusts.org  
+*	Dedicated to my loving family Den-Den & Kiwi Benitez
 ***********************************************************
 ******* Clear Global *********************************
 ***********************************************************

@@ -1,0 +1,316 @@
+
+***********************************************************
+******* Clear Global *********************************
+***********************************************************
+macro drop _all
+program drop _all
+***********************************************************
+
+di in red "Global Variables Cleared and Sub-Routine Programs Terminated"
+set more off
+clear
+************************************************************
+******** Start of Global *********************************
+global cex_type = "FMLY"  
+local cex_type $cex_type
+*************************
+* start_yr is the first year in the data
+* end_yr is the last year in the data
+*************************
+global start_yr =1996
+global end_yr =2014
+******************************
+******************************
+*Set the file location. Please note that only the root directory gets a backslash the rest are forward slashes 
+global out_loc = "C:/CEX/test/" 
+***********************************
+***********************************
+* Name your dataset. Make the name short but meaningful 
+global File_ID "hous_" 
+**************************************
+***************************************
+* Number of quarters of data to be used. Only choices right now are 4 or 5.
+* Please beware of the implications of the two different data types  
+global num_q = 5
+*******************************************
+*******************************************
+* where the micro data are located 
+global source = "C:/CEX/"
+**********************************************
+**********************************************
+* Would you like to aggregate the individual years of data into one dataset (1 = yes or 0 = no)
+global grab = 1
+
+* where the output file should be named after collapsing 
+global out_file_path  "C:/CEX/test/hous_.dta"
+***************************************************
+***************************************************
+* Would you like to create set of string variables that creates a CU ID variable without out quarter indicator(new_id) &  a quarter id variable (q_id). Very helpful to study at household level */
+global to_string 1
+
+*******************************************************
+*******************************************************
+* Would you like to add cpi data? (1 = yes or 0 = no)
+global cpi_add 1
+global cpi_u 1
+global pce 1
+global cpi_loc "C:/CEX/Toolbox/cpi.dta"
+global pce_loc "C:/CEX/Toolbox/PCE.dta"
+**********************************************************
+
+**********************************************************
+* List your cut or by variables. Do not change format or the script will break
+* preserve the format [" your_var1 your_var2...you_varN, sort :"] or script will break  qintrvyr
+global cut "year thirds" 
+global  by_mark "by year thirds,sort:"
+***********************************************************************************************************************
+***********************************************************************************************************************
+************************************* Begin "BY" variable creation   **********************************************
+cap program drop by_var0
+program define by_var0
+
+gen my_count=1
+gen all=1
+		
+* Age Indicator		
+		gen too_young=.
+			replace too_young=1 if age_ref<20 & age2>=20 & age2!=.
+			replace too_young=1 if age_ref>=20 & age2<20 & age2!=.
+		egen age_min=rowmin( age_ref age2 )
+		gen cu_age=0
+			replace cu_age=1 if age_min>=20 & age_min<=60
+			replace cu_age=1 if too_young==1
+			drop if cu_age!=1
+			drop too_young
+	
+* Generation of income ranking variables 
+			
+			cap confirm variable inc_rnkm 
+			if !_rc ==0 {
+			gen cu_inc_rnkm = inc_rank
+			}
+			else {
+			gen cu_inc_rnkm = inc_rnkm
+			}
+			egen avg_rank = mean(cu_inc_rnkm ), by(new_id)
+			replace cu_inc_rnkm = avg_rank
+			gen thirds= cond(cu_inc_rnkm>=.05 & cu_inc_rnkm<=.33,1,.)
+			replace thirds= 2 if missing(thirds) & cu_inc_rnkm>.33 & cu_inc_rnkm<=.66 
+			replace thirds= 3 if missing(thirds) &  cu_inc_rnkm>.66  &  cu_inc_rnkm<=0.95 
+			drop if thirds==.
+			label define thirdbl 1 "Lower Third" 2 "Middle Third"  3 "Highest Third"
+			label values thirds thirdbl
+
+
+end 
+*************************************************************************************************************************************
+************************************* Begin Variable creation 5 quarter  **********************************************
+**************************************************************************************************************************************
+* Five quater variable creation: 
+cap program drop depend_5q
+program define depend_5q
+
+* The next three lines weigths the data (see bls documentation for more details)
+
+	gen mo_finlwt= mo_scope*finlwt21
+	${by_mark}egen sum_mo_finlwt_pop= total(mo_finlwt)	
+	gen agg_pop =sum_mo_finlwt_pop/12
+*creates the main variables of interests
+#d ;
+foreach Z in totex4 totexp food fdhome
+ fdaway hous shelt util housop houseq 
+ mrtint ntlgas elctrc allful watrps
+ teleph trans proptx gasmo mainrp
+ vehins vehfin pubtra health hlthin
+ medsrv predrg entert tvrdio feeadm
+ pettoy appar read  retpen cashco 
+ lifins misc educa bbyday rendwe {;
+	gen cu_`Z'=.;
+	replace cu_`Z' = `Z'pq  if qintrvyr == ${current_year} & qintrvmo>=1 & qintrvmo<=3 ;
+	replace cu_`Z'= (`Z'cq + `Z'pq) if  qintrvyr == ${current_year} & qintrvmo>=4 & qintrvmo<=12; 
+	replace cu_`Z'= `Z'cq  if qintrvyr == ${next_year} & qintrvmo>=1 & qintrvmo<=3 ;
+	
+	gen wt_`Z' =cu_`Z' *finlwt21;
+	gen pr_`Z' =cond(cu_`Z'!=0,1,0);
+	${by_mark}	egen agg_`Z'=total(wt_`Z');
+	gen wtm_`Z' = (agg_`Z' / agg_pop)/deflator;
+	replace cu_`Z' =( cu_`Z' / deflator )*4;
+	};
+#d cr
+#d ;
+if year>=2000{;
+foreach Z in emrtpno eowndwl esheltr ehousng etranpt evehpur{;
+	gen cu_`Z'=.;
+	replace cu_`Z' = `Z'p  if qintrvyr == ${current_year} & qintrvmo>=1 & qintrvmo<=3 ;
+	replace cu_`Z'= (`Z'c + `Z'p) if  qintrvyr == ${current_year} & qintrvmo>=4 & qintrvmo<=12; 
+	replace cu_`Z'= `Z'c  if qintrvyr == ${next_year} & qintrvmo>=1 & qintrvmo<=3 ;
+	replace cu_`Z' =( cu_`Z' / deflator )*4;
+	};
+	};
+#d cr
+**********************************************************************************************************************
+****************************************************************************************************************
+	*****Income variables********
+	 if ${current_year}<=2003  {
+	
+	gen cu_income=fincbtax/deflator
+	gen wt_income=(fincbtax/4)*finlwt21
+	${by_mark}egen agg_inc = total((wt_income))
+	gen wtm_income = (agg_inc / agg_pop)/deflator
+
+	
+	}	
+	
+	else if ${current_year}>=2004   {
+	
+	gen cu_income=fincbtxm/deflator
+	gen wt_income=(fincbtxm/4)*finlwt21 
+	${by_mark}egen agg_inc = total(wt_income)
+	gen wtm_income = (agg_inc / agg_pop)/deflator
+
+			}
+end
+**********************************************************************************************************************
+***********************************************************************************************************************
+************************************************CPI add on **********************************************************
+cap program drop cpi_add
+program define cpi_add
+
+if ${cpi_add}== 0{
+gen deflator= 1
+}
+else if ${cpi_add}== 1{
+
+	merge m:1 qintrvyr using ${pce_loc}
+	drop if _merge!=3	
+	}
+end 
+*************************************** Grab script *******************************************************************
+*This sub routine assembles the individual yearly datasets and merges the files together
+cap program drop graber
+program define graber
+
+clear
+set more off
+cd ${out_loc} /* select directory */
+! dir ${File_ID}*.dta  /s/b > ${out_loc}filelist.txt /*id the file */
+file open myfile using ${out_loc}filelist.txt, read 
+file read myfile line
+while r(eof)==0 { /* while you're not at the end of the file */
+	append using `line', force 
+	file read myfile line
+	}
+file close myfile
+save ${out_file_path}, replace
+
+end
+**************************************  Begin mo_scope_pr  N/C *******************************************************
+* This subroutine is the solution for removing the data that is not a part of the target period when using 5 quarters of data. This subroutine is only invoked when using 5 quarter data.  
+cap program drop mo_scope_pr
+program define mo_scope_pr
+	gen mo_scope =.
+    replace mo_scope =0 if qintrvyr==${current_year} & qintrvmo==1
+	replace mo_scope =1 if qintrvyr==${current_year} & qintrvmo==2
+    replace mo_scope =2 if qintrvyr==${current_year} & qintrvmo==3
+	replace mo_scope =3 if qintrvyr==${current_year} & qintrvmo>=4 & qintrvmo<=12
+	replace mo_scope =3 if qintrvyr==${next_year} & qintrvmo==1
+    replace mo_scope =2 if qintrvyr==${next_year}& qintrvmo==2
+    replace mo_scope =1 if qintrvyr==${next_year} & qintrvmo==3
+end 	
+***********************************************************************************************************************
+***********************************************************************************************************************
+***  Begin make_string_id  [This is a convenience variable that just makes working with CUs easier ie, collapse,sums] *
+********************************************Do not change or alter*****************************************************
+cap program drop make_string_id
+program define make_string_id
+/* this creates two variables new_id which is an id var without quarter designation and q_id which is the interview quarter */
+		if ${to_string}== 1{
+		tostring newid,  gen(newid_str) format(%08.0f)
+		gen new_id = substr(newid_str, 1,7)
+		gen q_id = substr(newid_str, 8,1)
+		cap drop newid_str 
+		}
+		else {
+		display in red "No string created" 
+		}
+		destring new_id q_id, replace 
+		
+end 
+***********************************************************************************************************************
+
+************************************************************************************************************
+
+**********************************************************************************************************************
+**************************************  Begin   progfmly5q   N/C     *************************************************
+******************************************Do not change or alter *****************************************************
+cap program drop progfmly5q
+program define progfmly5q
+forvalues x = $start_yr(1)$end_yr {
+		global current_year  `x'
+		local current_year  `x'
+		global next_year = 1 + `x'
+		local next_year = 1 + `x'
+		local loc "${source}${current_year}"
+	cd "`loc'"
+
+	! dir fmli*.dta  /s/b > "${source}files_to_append_list.txt" 
+		cap file close myfile
+		file open myfile using "${source}files_to_append_list.txt", read
+		file read myfile line
+			
+while r(eof)==0 { /* Sends a rc(1) when the end of the list is reached to terminate the loop*/
+		append using `line', 
+		cap destring qintrvmo qintrvyr qyear compckg compsav compsec compowd , replace
+		
+		file read myfile line 
+		
+	} /*end of the  post 1996 while loop */
+	gen year=${current_year}
+save "${out_loc}${File_ID}${cex_type}_yr_${current_year}" , replace
+	
+cpi_add
+make_string_id			
+mo_scope_pr
+by_var0
+depend_5q	
+
+duplicates drop newid, force
+
+collapse (mean) wtm_*  deflator (median)cu_*  (sum) my_count , by(${cut})
+save "${out_loc}${File_ID}${cex_type}_yr_${current_year}" , replace
+		file close myfile	
+		clear		
+	} 			/* for values loop end */
+end
+**********************************************************************************************************************
+
+*************************************************************************************************************************************
+/*Start of main For Each loop. This loop cycle through the various folders to search for files that match the defined search pattern */
+
+if "$cex_type" == "FMLY" {  
+	if $num_q==5{
+		progfmly5q /* Program call */
+		
+		}
+		
+if $grab == 1{
+	graber
+	}	
+	
+}   /*end of FMLY loop*/   
+
+*end of MEMB Loop*/
+ 	else { 
+window stopbox note  "Roses are red, Violet are blue, that file name is one I never knew"
+}
+***********************************************************
+******* Clear Global *********************************
+***********************************************************
+macro drop _all
+program drop _all
+*******************************************************
+di in red "Global Variables Cleared and Sub-Routine Programs Terminated"
+
+
+
+

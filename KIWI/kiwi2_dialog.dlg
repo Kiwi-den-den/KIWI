@@ -1,0 +1,445 @@
+/* 
+  Second version of mygenerate.dlg
+  This version has controls added for type and value labels
+*/  
+
+VERSION 9.0
+
+POSITION . . 680 350
+
+DIALOG main, label("Kiwi generate - Generate population or sample means for the BLS CE") tabtitle("Main")
+BEGIN
+*TEXT     tx_gen     10  10   120  .,	label("Generate variable:")
+ GROUPBOX gb_var      5     10   200      200,               ///
+           label("Variable selection")
+CHECKBOX ck_vlab0    10  +25  50  .,                           ///
+           onclickon(script main_ck_vlab0_on)                  ///
+           onclickoff(script main_ck_vlab0_off)  
+COMBOBOX cb_vlab0   35  @  150   .,                            ///
+           contents(user_var_list) dropdownlist 
+		   
+CHECKBOX ck_vlab1   10  +30  50  .,                           ///
+           onclickon(script main_ck_vlab1_on)                  ///
+           onclickoff(script main_ck_vlab1_off)  		   
+COMBOBOX cb_vlab1   35  @  150  .,                            ///
+           contents(user_var_list) dropdownlist 
+
+		   
+CHECKBOX ck_vlab2    10  +30  50  .,                           ///
+           onclickon(script main_ck_vlab2_on)                  ///
+           onclickoff(script main_ck_vlab2_off)  		   
+COMBOBOX cb_vlab2   35  @  150  .,                            ///
+           contents(user_var_list) dropdownlist 		   
+
+
+CHECKBOX ck_vlab3    10  +30  50  .,                           ///
+           onclickon(script main_ck_vlab3_on)                  ///
+           onclickoff(script main_ck_vlab3_off)  	   
+COMBOBOX cb_vlab3   35  @  150   .,                            ///
+           contents(user_var_list) dropdownlist 	
+		   
+CHECKBOX ck_vlab4    10  +30  50  .,                           ///
+           onclickon(script main_ck_vlab4_on)                  ///
+           onclickoff(script main_ck_vlab4_off)  		   
+COMBOBOX cb_vlab4   35  @  150    .,                            ///
+           contents(user_var_list) dropdownlist 
+
+GROUPBOX gb_years     210  10   200     100,   label("Date selection") 		   
+TEXT 	  TX_startyr 220  30  60 ., label("Start year:")   
+COMBOBOX cb_startyr  270  @  75   .,                            ///
+           contents(user_year_list) dropdown
+TEXT 	  TX_endyr 	220  75  60 ., label("End year:")   
+COMBOBOX cb_endyr   270  @  75    .,                            ///
+           contents(user_year_list) dropdown		   
+
+		   
+GROUPBOX gb_wt     210     +40   200      75,               ///
+           label("Calendar or Collection year")		   
+RADIO	rb_wt_on  220  135 100 .,	first	/*
+		*/ label("Calendar Year")
+		
+RADIO	rb_wt_off 	@    +30  @	.,	last /*
+		*/ label("Collection Year")		   
+		   
+	
+GROUPBOX gb_fileID      5   220  200      75,               ///
+           label("Name output files")
+TEXT TX_fileID 	10  +20  60 ., label("File ID") 
+EDIT ED_fileID 	10  +20  144 ., label("File ID year:")  tooltip("Choose a file name to identify your output")	
+
+
+
+GROUPBOX gb_kdollars  210  200  200 100,               ///
+           label("Inflation adjustment")		   
+                      
+CHECKBOX ck_cntd    220  225 100 .,                        ///
+           onclickon(script main_ck_cntd_on)                  ///
+           onclickoff(script main_ck_cntd_off) 				///
+		   label("Constant dollars")
+TEXT TX_cntd 		220  	250  150 ., label("Base year") 		   
+COMBOBOX cb_cntd    220 	+20   150   .,                            ///
+           contents(user_year_list) dropdownlist 
+		   
+
+
+GROUPBOX gb_by0  420    10   350      65,                       
+CHECKBOX ck_by0  425	@    250  .,                           ///
+           onclickon(script main_ck_by0_on)                  ///
+           onclickoff(script main_ck_by0_off)					///
+		   label("Grouping variable 1") 
+		   
+COMBOBOX cb_by0  425 	+20   175   .,                            ///
+           contents(user_by_list) dropdownlist 
+
+		   
+GROUPBOX gb_by1  420    100   350      65,                       
+CHECKBOX ck_by1  425	@    250  .,                           ///
+           onclickon(script main_ck_by1_on)                  ///
+           onclickoff(script main_ck_by1_off)					///
+		   label("Grouping variable 2") 
+		   
+COMBOBOX cb_by1  425 	+20   175   .,                            ///
+           contents(user_by_list) dropdownlist 
+
+END
+
+
+
+
+
+LIST user_by_list
+BEGIN
+Quintiles_of_income_before_taxes
+Age_of_reference_person
+Composition_of_consumer_unit
+Housing_tenure
+Race_of_reference_person
+Income_before_taxes
+Size_of_consumer_unit
+Population_size_of_area_of_residence
+Number_of_earners_in_consumer_unit
+Region_of_residence
+Occupation_of_reference_person
+END
+
+
+LIST user_var_list
+BEGIN
+Total_expenditures	
+Alcoholic_beverages	
+Babysitting_and_day_care	
+Cars_and_trucks_new	
+Cars_and_trucks_used	
+Clothing_Apparel_and_services	
+Clothing_for_boys_2_to_15	
+Clothing_for_children_under_2	
+Clothing_for_girls_2_to_15	
+Clothing_for_men_6_and_over	
+Clothing_for_men_and_boys	
+Clothing_other_apparel_products_and_services	
+Clothing_women_and_girls_	
+Clothing_women_clothing_16_and_over	
+Domestic_services	
+Domestic_services_excluding_child_care	
+Education	
+Electricity	
+Entertainment	
+Entertainment_other_equipment_and_services	
+Equipment_and_services_Other	
+Fees_and_admission	
+Floor_coverings	
+Food	
+Food_at_home	
+Food_away_excluding_meals_as_pay	
+Food_away_from_home	
+Footwear	
+Fuel_oil	
+Fuel_oil_and_other_fuel	
+Fuels_other	
+Furniture	
+Gasoline_and_motor_oil	
+Health_care	
+Health_insurance	
+House_furnishings_and_equipment	
+Household_Expenses_Other	
+Household_operations	
+Household_textiles	
+Housing	
+Life_and_other_personal_insurance	
+Local_public_transportation_excluding_on_trips	
+Lodging_other	
+Maintenance_and_repairs	
+Maintenance_repairs_insurance_and_other_expenses	
+Major_appliances	
+Meals_as_pay	
+Medical_services	
+Medical_supplies	
+Natural_gas	
+Owned_dwellings	
+Personal_care	
+Personal_insurance_and_pensions	
+Pets_toys_and_playground_equipment	
+Prescription_drugs_and_medical_supplies	
+Property_taxes	
+Public_transportation	
+Public_transportation_on_trips	
+Reading	
+Rent_excluding_rent_as_pay	
+Rented_dwellings	
+Retirement_pensions_and_social_security	
+Shelter	
+Small_appliances_and_miscellaneous_housewares	
+Telephone	
+Television_radios_and_sound_equipment	
+Transportation	
+Utilities_fuels_and_public_services	
+Vehicle_finance_charges	
+Vehicle_insurance	
+Vehicle_rental_licenses_and_other_charges	
+Vehicles_other	
+Water_and_other_public_services	
+END
+
+LIST user_year_list
+BEGIN
+1996
+1997
+1998
+1999
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+END
+
+
+
+OK ok1,      label("OK")
+CANCEL can1, label("Cancel")
+SUBMIT sub1, label("Submit")
+HELP hlp1,   view("help generate")
+RESET res1
+COPY copy1
+
+
+
+SCRIPT main_ck_vlab0_on
+BEGIN
+   main.cb_vlab0.enable
+END
+
+SCRIPT main_ck_vlab0_off
+BEGIN
+   main.cb_vlab0.disable
+END
+
+SCRIPT main_ck_vlab1_on
+BEGIN
+   main.cb_vlab1.enable
+END
+
+SCRIPT main_ck_vlab1_off
+BEGIN
+   main.cb_vlab1.disable
+END
+
+SCRIPT main_ck_vlab2_on
+BEGIN
+   main.cb_vlab2.enable
+END
+
+SCRIPT main_ck_vlab2_off
+BEGIN
+   main.cb_vlab2.disable
+END
+SCRIPT main_ck_vlab3_on
+BEGIN
+   main.cb_vlab3.enable
+END
+
+SCRIPT main_ck_vlab3_off
+BEGIN
+   main.cb_vlab3.disable
+END
+
+SCRIPT main_ck_vlab4_on
+BEGIN
+   main.cb_vlab4.enable
+END
+SCRIPT main_ck_vlab4_off
+BEGIN
+   main.cb_vlab4.disable
+END
+
+SCRIPT main_ck_by0_on
+BEGIN
+   main.cb_by0.enable
+END
+
+SCRIPT main_ck_by0_off
+BEGIN
+   main.cb_by0.disable
+END
+
+SCRIPT main_ck_by1_on
+BEGIN
+   main.cb_by1.enable
+END
+
+SCRIPT main_ck_by1_off
+BEGIN
+   main.cb_by1.disable
+END
+
+SCRIPT main_ck_cntd_on
+BEGIN
+   main.cb_cntd.enable
+END
+
+SCRIPT main_ck_cntd_off
+BEGIN
+   main.cb_cntd.disable
+END
+
+     
+
+PROGRAM command
+BEGIN
+put "global File_ID "
+put main.ED_fileID
+stata
+
+put "global cpi_add "
+put main.ck_cntd
+stata
+
+put "global cpi_baseyear "
+put main.cb_cntd
+stata
+
+put "global start_yr "
+put main.cb_startyr
+stata
+
+put "global end_yr "
+put main.cb_endyr
+stata
+
+put "global rb_wt_on "
+put main.rb_wt_on
+stata
+
+if  main.ck_vlab0 {
+put "global var0 "
+put main.cb_vlab0 
+stata
+}
+
+if  main.ck_vlab1 {
+put "global var1 "
+put main.cb_vlab1 
+stata
+}
+
+if  main.ck_vlab2 {
+put "global var2 "
+put main.cb_vlab2 
+stata
+}
+if  main.ck_vlab3 {
+put "global var3 "
+put main.cb_vlab3 
+stata
+}
+if  main.ck_vlab4 {
+put "global var4 "
+put main.cb_vlab4 
+stata
+}
+if  main.ck_by0 {
+put "global by_var0 "
+put "
+put main.cb_by0
+put "
+stata
+}
+if  main.ck_by1 {
+put "global by_var1 "
+put "
+put main.cb_by1
+put "
+stata
+}
+
+put "global by_var2 year "
+stata
+
+put "global by_mark year "
+put " "
+put main.cb_by0 
+put " "
+put main.cb_by1 
+put " "
+stata
+
+put "global by_sort "
+put "by  year " 
+put main.cb_by0 
+put " "
+put main.cb_by1 
+put " "
+put " , sort:"
+stata
+
+
+put "global dialog_var_list "
+put " 
+put main.cb_vlab0 
+put " "
+put main.cb_vlab1  
+put " "
+put main.cb_vlab2 
+put " "
+put main.cb_vlab3 
+put " "
+put main.cb_vlab4 
+put " "
+stata
+
+put "global source "
+put " C:/CEX/"
+stata
+
+put "global out_loc "
+put " C:/CEX/test/"
+stata
+
+
+put "clear"
+stata
+
+
+put "kiwi2_start "
+stata 
+
+
+/* 
+put "global cpi 1"
+stata
+put "global finlwt 1"
+stata */
+END
+
+
+
+
+

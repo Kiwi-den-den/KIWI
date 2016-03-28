@@ -15,7 +15,7 @@ http://www.bls.gov/cex/csxsurveyforms.htm#interview
  Guide to Data	
 http://www.bls.gov/cex/pumd_novice_guide.pdf	
 
-How do I use Kiwi or Cassava? 	
+How do I use Kiwi or Cassava? 		
 First download the data	
 1)	The data can be downloaded directly from the BLS CE Survey website http://www.bls.gov/cex/pumdhome.htm or,	
 2)	For the user’s convenience we have included a link to the formatted version of the data from 1996 to 2014, only the family	 interview survey is included.  https://www.dropbox.com/s/7p2u4en2c83fnxu/CEX_data_files1.rar?dl=0	

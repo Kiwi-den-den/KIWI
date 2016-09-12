@@ -2,6 +2,7 @@ cap program drop kiwi2_start
 program define kiwi2_start
 set more off
 set trace off
+version 13.1
 clear
 **************************************************************************************************************************
 

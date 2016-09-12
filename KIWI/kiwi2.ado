@@ -1,6 +1,6 @@
 cap program drop kiwi2	
 program define kiwi2
-
+version 13.1
 
 display " KIWI is to to facilitate exploration of BLS Consumer Expenditure Survey. It is designed to give those interested in the data an easier way to access and explore the rich data source."
 display " Please cite"
